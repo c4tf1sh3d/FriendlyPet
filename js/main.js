@@ -5,7 +5,7 @@ let t="dog";const L=document.getElementById("list"),Q=document.getElementById("q
 function draw(){const s=Q.value.trim().toLowerCase();L.innerHTML=D[t].filter(r=>!s||(r[0]+r[1]).toLowerCase().includes(s)).map(r=>`<div class="row"><div><h3>${r[0]}</h3><small>${r[1]}</small></div><b>${r[2]}</b></div>`).join("")||'<p class="note">Ничего не найдено — спросите у администратора.</p>'}
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");t=b.dataset.t;draw()});
 Q.oninput=draw;draw();
-const lb=document.getElementById("lb");document.querySelectorAll(".gal .ph").forEach(p=>p.onclick=()=>lb.classList.add("on"));lb.onclick=()=>lb.classList.remove("on");
+const lb=document.getElementById("lb");const lbImg=lb.querySelector("img");document.querySelectorAll(".gal .ph").forEach(p=>p.onclick=()=>{lbImg.src=p.dataset.full||getComputedStyle(p).backgroundImage.slice(5,-2);lb.classList.add("on")});lb.onclick=()=>{lb.classList.remove("on");lbImg.removeAttribute("src")};
 addEventListener("keydown",e=>e.key==="Escape"&&lb.classList.remove("on"));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll(".rv-in").forEach(e=>io.observe(e));
