@@ -9,3 +9,30 @@ const lb=document.getElementById("lb");const lbImg=lb.querySelector("img");docum
 addEventListener("keydown",e=>e.key==="Escape"&&lb.classList.remove("on"));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll(".rv-in").forEach(e=>io.observe(e));
+
+
+// Interactive Yandex Map: Friendly Pet, Lenin Avenue 44G, Nizhny Novgorod.
+(function initFriendlyPetMap(){
+  const mapNode = document.getElementById('yandex-map');
+  if (!mapNode) return;
+  if (typeof ymaps === 'undefined') {
+    mapNode.innerHTML = '<div class="map-fallback">Не удалось загрузить карту. <a href="https://yandex.ru/maps/org/friendly_pet_hot_dog/76002869674/" target="_blank" rel="noopener">Откройте расположение в Яндекс Картах</a>.</div>';
+    return;
+  }
+  ymaps.ready(function(){
+    const coords = [56.280937, 43.928246];
+    const map = new ymaps.Map('yandex-map', {
+      center: coords,
+      zoom: 17,
+      controls: ['zoomControl', 'typeSelector', 'fullscreenControl']
+    }, { suppressMapOpenBlock: true });
+    map.behaviors.enable(['drag', 'scrollZoom', 'dblClickZoom']);
+    const placemark = new ymaps.Placemark(coords, {
+      balloonContentHeader: '<strong>Friendly Pet</strong>',
+      balloonContentBody: 'Груминг-салон для собак и кошек<br>Нижний Новгород, проспект Ленина, 44Г<br><small>Вход слева от 3-го подъезда. Вывеска «Груминг-салон».</small>',
+      hintContent: 'Friendly Pet — груминг-салон'
+    }, { preset: 'islands#pinkDotIcon' });
+    map.geoObjects.add(placemark);
+    placemark.balloon.open();
+  });
+})();
